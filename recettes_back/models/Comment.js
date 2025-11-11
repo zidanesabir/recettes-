@@ -6,7 +6,7 @@ const commentSchema = new mongoose.Schema({
     required: [true, 'Le contenu du commentaire est requis'],
     trim: true,
     maxlength: [1000, 'Le commentaire ne peut pas dépasser 1000 caractères'],
-  },
+    },
   author: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
