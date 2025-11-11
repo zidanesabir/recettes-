@@ -18,7 +18,11 @@ export const register = async (req, res) => {
     }
 
     // Create user
-    const user = await User.create({ username, email, password });
+
+
+
+
+        const user = await User.create({ username, email, password });
 
     if (user) {
       const token = generateToken(user._id);
@@ -48,7 +52,6 @@ export const register = async (req, res) => {
     });
   }
 };
-
 // @desc    Login user
 // @route   POST /api/auth/login
 // @access  Public
