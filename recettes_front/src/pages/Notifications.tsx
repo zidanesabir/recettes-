@@ -114,7 +114,7 @@ const Notifications = () => {
       case 'comment_reply':
         return MessageCircle;
       case 'recipe_favorite':
-        return Star;
+        return Heart;
       case 'new_follower':
         return UserPlus;
       default:

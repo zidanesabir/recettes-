@@ -7,6 +7,10 @@ COPY package*.json ./
 RUN npm ci
 COPY . .
 RUN npm install
+
+# Inject API base URL at build time for Vite
+ARG VITE_API_URL
+ENV VITE_API_URL=${VITE_API_URL}
 RUN npm run build    # pour Vite, génère /dist
 
 # Stage 2: serve with nginx

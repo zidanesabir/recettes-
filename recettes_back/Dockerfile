@@ -16,12 +16,12 @@ COPY --from=deps /app/node_modules ./node_modules
 # copy app source
 COPY . .
 # installer bash et wait-for-it
-RUN apk add --no-cache bash
+RUN apk add --no-cache bash curl
 COPY wait-for-it.sh /wait-for-it.sh
 # expose the port your server listens on (change si besoin)
-EXPOSE 5001
+EXPOSE 5000
 # healthcheck (optionnel)
 HEALTHCHECK --interval=30s --timeout=3s --start-period=10s \
-  CMD wget -qO- http://localhost:5001/health || exit 1
+  CMD curl -sf http://localhost:5000/api/health || exit 1
 
 CMD ["./wait-for-it.sh", "mongodb:27017", "--", "node", "server.js"]

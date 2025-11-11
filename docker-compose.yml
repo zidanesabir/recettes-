@@ -1,5 +1,3 @@
-version: '3.9'
-
 services:
 
   # --- MongoDB ---
@@ -17,6 +15,7 @@ services:
       - recettes_net
     volumes:
       - mongodb_data:/data/db
+      - ./mongo-init:/docker-entrypoint-initdb.d
 
   # --- Mongo Express (UI MongoDB) ---
   mongo-express:
@@ -37,6 +36,26 @@ services:
     networks:
       - recettes_net
 
+  # --- One-shot seed job (idempotent) ---
+  mongo-seed:
+    image: mongo:7
+    container_name: recettes_mongo_seed
+    restart: "no"
+    depends_on:
+      - mongodb
+    volumes:
+      - ./mongo-init:/seed:ro
+    command: [
+      "mongosh",
+      "--host", "mongodb",
+      "-u", "admin",
+      "-p", "pass",
+      "--authenticationDatabase", "admin",
+      "/seed/categories.js"
+    ]
+    networks:
+      - recettes_net
+
   # --- Backend Node.js ---
   recettes_back:
     build:
@@ -46,8 +65,13 @@ services:
     restart: unless-stopped
     env_file:
       - ./recettes_back/.env
+    environment:
+      - PORT=5000
+      - NODE_ENV=production
+      - JWT_SECRET=changeme
+      - MONGODB_URI=mongodb://admin:pass@mongodb:27017/recette?authSource=admin
     ports:
-      - "5001:5001"
+      - "5000:5000"
     depends_on:
       - mongodb
     networks:
@@ -58,6 +82,8 @@ services:
     build:
       context: ./recettes_front
       dockerfile: Dockerfile
+      args:
+        VITE_API_URL: "http://localhost:5000/api"
     container_name: recettes_front
     restart: unless-stopped
     ports:
