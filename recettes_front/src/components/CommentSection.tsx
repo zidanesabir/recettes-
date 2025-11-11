@@ -81,44 +81,56 @@ export const CommentSection = ({ recipeId }: CommentSectionProps) => {
     }
   };
 
-  const handleLikeComment = async (commentId: string) => {
-    if (!isAuthenticated) {
-      toast({
-        title: "Connexion requise",
-        description: "Vous devez être connecté pour aimer un commentaire",
-        variant: "destructive",
-      });
-      return;
-    }
+  // Handle "like" action on a comment
+const handleLikeComment = async (commentId: string) => {
+  // Check if the user is authenticated before allowing likes
+  if (!isAuthenticated) {
+    toast({
+      title: "Connexion requise",
+      description: "Vous devez être connecté pour aimer un commentaire",
+      variant: "destructive",
+    });
+    return;
+  }
 
-    try {
-      await commentsAPI.like(commentId);
-      loadComments();
-    } catch (error: any) {
-      toast({
-        title: "Erreur",
-        description: error.message || "Impossible d'aimer le commentaire",
-        variant: "destructive",
-      });
-    }
-  };
+  try {
+    // Send a like request to the API
+    await commentsAPI.like(commentId);
+    // Reload the comment list to update like counts
+    loadComments();
+  } catch (error: any) {
+    // Handle any error that occurs during the like action
+    toast({
+      title: "Erreur",
+      description: error.message || "Impossible d'aimer le commentaire",
+      variant: "destructive",
+    });
+  }
+};
 
-  const handleSubmitReply = async (commentId: string) => {
-    if (!replyContent.trim()) return;
+// Handle submission of a reply to a comment
+const handleSubmitReply = async (commentId: string) => {
+  // Ignore if the reply field is empty
+  if (!replyContent.trim()) return;
 
-    try {
-      await commentsAPI.addReply(commentId, replyContent);
-      setReplyingTo(null);
-      setReplyContent("");
-      loadComments();
-    } catch (error: any) {
-      toast({
-        title: "Erreur",
-        description: error.message || "Impossible d'ajouter la réponse",
-        variant: "destructive",
-      });
-    }
-  };
+  try {
+    // Send the reply to the API
+    await commentsAPI.addReply(commentId, replyContent);
+    // Reset reply state and input field
+    setReplyingTo(null);
+    setReplyContent("");
+    // Refresh comments to show the new reply
+    loadComments();
+  } catch (error: any) {
+    // Handle errors when adding a reply
+    toast({
+      title: "Erreur",
+      description: error.message || "Impossible d'ajouter la réponse",
+      variant: "destructive",
+    });
+  }
+};
+
 
   return (
     <Card>
