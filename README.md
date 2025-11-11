@@ -1,6 +1,10 @@
 # Recettes – README principal
 
 Projet complet (frontend React + backend Node.js + MongoDB) prêt pour Docker.
+<img width="992" height="629" alt="image" src="https://github.com/user-attachments/assets/8a9a88d2-81fe-42ee-9843-124643f87f4d" />
+<img width="909" height="632" alt="image" src="https://github.com/user-attachments/assets/7dda72a1-6cd7-4066-803a-9a65fe4ddbc9" />
+<img width="1316" height="615" alt="image" src="https://github.com/user-attachments/assets/87fa7d5c-54d9-4b50-919b-978c75f15eef" />
+
 
 ## Aperçu
 - Frontend: `recettes_front` (React + Vite, livré via Nginx en Docker)
