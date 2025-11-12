@@ -1,3 +1,6 @@
+// Profile component
+// Ce composant gère l'affichage du profil utilisateur, les recettes associées et la logique de suivi / désuivi
+
 import { useEffect, useState } from "react";
 import { Header } from "@/components/Header";
 import { Button } from "@/components/ui/button";
