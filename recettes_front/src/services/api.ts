@@ -171,7 +171,11 @@ export const recipesAPI = {
   },
 };
 
+<<<<<<< HEAD
 // Users API
+=======
+// Users API 
+>>>>>>> 7bcff48 (add au projet recettes)
 export const usersAPI = {
   getById: async (id: string) => {
     return request(`/users/${id}`);

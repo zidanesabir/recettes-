@@ -1,10 +1,13 @@
 # Recettes – README principal
 
 Projet complet (frontend React + backend Node.js + MongoDB) prêt pour Docker.
+<<<<<<< HEAD
 <img width="992" height="629" alt="image" src="https://github.com/user-attachments/assets/8a9a88d2-81fe-42ee-9843-124643f87f4d" />
 <img width="909" height="632" alt="image" src="https://github.com/user-attachments/assets/7dda72a1-6cd7-4066-803a-9a65fe4ddbc9" />
 <img width="1316" height="615" alt="image" src="https://github.com/user-attachments/assets/87fa7d5c-54d9-4b50-919b-978c75f15eef" />
 
+=======
+>>>>>>> 7bcff48 (add au projet recettes)
 
 ## Aperçu
 - Frontend: `recettes_front` (React + Vite, livré via Nginx en Docker)
@@ -87,4 +90,8 @@ Projet complet (frontend React + backend Node.js + MongoDB) prêt pour Docker.
 ## Personnalisation
 - Changer le port frontend (host): éditer `ports` du service `recettes_front` (ex. `8081:80`).
 - Protéger l’API: mettre un `JWT_SECRET` fort et gérer CORS selon besoin.
+<<<<<<< HEAD
 - Ajouter d’autres seeds: créer des scripts dans `mongo-init` et les appeler via un job similaire à `mongo-seed`.
+=======
+- Ajouter d’autres seeds: créer des scripts dans `mongo-init` et les appeler via un job similaire à `mongo-seed`.
+>>>>>>> 7bcff48 (add au projet recettes)

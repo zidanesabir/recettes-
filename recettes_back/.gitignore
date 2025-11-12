@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 node_modules/
 
 .DS_Store
@@ -6,3 +7,13 @@ uploads/
 dist/
 build/
 
+=======
+node_modules/
+.env
+.DS_Store
+*.log
+uploads/
+dist/
+build/
+
+>>>>>>> 7bcff48 (add au projet recettes)

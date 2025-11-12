@@ -2,6 +2,10 @@ import { createContext, useContext, useState, useEffect, ReactNode } from 'react
 import { authAPI } from '@/services/api';
 import { useToast } from '@/hooks/use-toast';
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 7bcff48 (add au projet recettes)
 interface User {
   id?: string;
   _id?: string;
