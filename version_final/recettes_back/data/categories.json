@@ -1,0 +1,27 @@
+[
+  {
+    "name": "Entrées",
+    "slug": "entrees",
+    "description": "Recettes d'entrées et apéritifs"
+  },
+  {
+    "name": "Plats principaux",
+    "slug": "plats",
+    "description": "Plats principaux et plats complets"
+  },
+  {
+    "name": "Desserts",
+    "slug": "desserts",
+    "description": "Desserts sucrés et gourmands"
+  },
+  {
+    "name": "Boissons",
+    "slug": "boissons",
+    "description": "Boissons chaudes et froides"
+  }
+]
+
+
+
+
+

@@ -1,0 +1,103 @@
+services:
+
+  # --- MongoDB ---
+  mongodb:
+    image: mongo:7
+    container_name: recettes_mongodb
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: pass
+      MONGO_INITDB_DATABASE: recette
+    ports:
+      - "27017:27017"
+    networks:
+      - recettes_net
+    volumes:
+      - mongodb_data:/data/db
+      - ./mongo-init:/docker-entrypoint-initdb.d
+
+  # --- Mongo Express (UI MongoDB) ---
+  mongo-express:
+    image: mongo-express
+    container_name: recettes_mongo_express
+    restart: unless-stopped
+    ports:
+      - "8087:8081"
+    environment:
+      ME_CONFIG_MONGODB_SERVER: mongodb
+      ME_CONFIG_MONGODB_PORT: 27017
+      ME_CONFIG_MONGODB_ADMINUSERNAME: admin
+      ME_CONFIG_MONGODB_ADMINPASSWORD: pass
+      ME_CONFIG_BASICAUTH_USERNAME: admin
+      ME_CONFIG_BASICAUTH_PASSWORD: pass
+    depends_on:
+      - mongodb
+    networks:
+      - recettes_net
+
+  # --- One-shot seed job (idempotent) ---
+  mongo-seed:
+    image: mongo:7
+    container_name: recettes_mongo_seed
+    restart: "no"
+    depends_on:
+      - mongodb
+    volumes:
+      - ./mongo-init:/seed:ro
+    command: [
+      "mongosh",
+      "--host", "mongodb",
+      "-u", "admin",
+      "-p", "pass",
+      "--authenticationDatabase", "admin",
+      "/seed/categories.js"
+    ]
+    networks:
+      - recettes_net
+
+  # --- Backend Node.js ---
+  recettes_back:
+    build:
+      context: ./recettes_back
+      dockerfile: Dockerfile
+    container_name: recettes_back
+    restart: unless-stopped
+    env_file:
+      - ./recettes_back/.env
+    environment:
+      - PORT=5000
+      - NODE_ENV=production
+      - JWT_SECRET=changeme
+      - MONGODB_URI=mongodb://admin:pass@mongodb:27017/recette?authSource=admin
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mongodb
+    networks:
+      - recettes_net
+
+  # --- Frontend ---
+  recettes_front:
+    build:
+      context: ./recettes_front
+      dockerfile: Dockerfile
+      args:
+        VITE_API_URL: "http://localhost:5000/api"
+    container_name: recettes_front
+    restart: unless-stopped
+    ports:
+      - "8005:80"
+    depends_on:
+      - recettes_back
+    networks:
+      - recettes_net
+
+# --- Réseau partagé ---
+networks:
+  recettes_net:
+    driver: bridge
+
+# --- Volumes ---
+volumes:
+  mongodb_data:
